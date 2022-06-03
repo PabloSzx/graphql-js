@@ -20,7 +20,7 @@
         ["@babel/preset-env", { "modules": false, "targets": { "node": "12" } }]
       ],
       "plugins": [
-        ["./resources/add-extension-to-import-paths", { "extension": "mjs" }]
+        ["./resources/add-extension-to-import-paths", { "extension": "js" }]
       ]
     }
   }

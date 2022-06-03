@@ -19,6 +19,13 @@ if (require.main === module) {
 
   const packageJSON = buildPackageJSON();
 
+  packageJSON.type = 'module';
+
+  packageJSON.exports = {
+    '.': './index.js',
+    './*': './*.js',
+  };
+
   const srcFiles = readdirRecursive('./src', { ignoreDir: /^__.*__$/ });
   for (const filepath of srcFiles) {
     const srcPath = path.join('./src', filepath);
@@ -26,11 +33,18 @@ if (require.main === module) {
 
     fs.mkdirSync(path.dirname(destPath), { recursive: true });
     if (filepath.endsWith('.ts')) {
-      const cjs = babelBuild(srcPath, { envName: 'cjs' });
-      writeGeneratedFile(destPath.replace(/\.ts$/, '.js'), cjs);
-
       const mjs = babelBuild(srcPath, { envName: 'mjs' });
-      writeGeneratedFile(destPath.replace(/\.ts$/, '.mjs'), mjs);
+      writeGeneratedFile(destPath.replace(/\.ts$/, '.js'), mjs);
+
+      const filePathJs = './' + filepath.replace('.ts', '.js');
+
+      packageJSON.exports[filePathJs] = filePathJs;
+
+      if (filepath.endsWith('/index.ts')) {
+        console.log(filepath);
+        packageJSON.exports['./' + filepath.replace('/index.ts', '')] =
+          filePathJs;
+      }
     }
   }
 

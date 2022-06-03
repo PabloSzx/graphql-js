@@ -1,11 +1,10 @@
 {
-  "name": "graphql",
+  "name": "graphql-esm",
   "version": "16.5.0",
   "description": "A Query Language and Runtime which can target any service.",
   "license": "MIT",
   "private": true,
-  "main": "index",
-  "module": "index.mjs",
+  "main": "./index.js",
   "typesVersions": {
     ">=4.1.0": {
       "*": [
